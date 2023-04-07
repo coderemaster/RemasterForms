@@ -54,12 +54,12 @@
     <Reference Include="RemasterForms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1c6b8828ae9c9230, processorArchitecture=MSIL"
                Condition="'$(Configuration)' == 'Debug'">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Debug\RemasterForms.dll</HintPath>
+      <HintPath>..\LibDebug\RemasterForms.dll</HintPath>
     </Reference>
     <Reference Include="RemasterForms, Version=1.0.0.0, Culture=neutral, PublicKeyToken=1c6b8828ae9c9230, processorArchitecture=MSIL"
                Condition="'$(Configuration)' == 'Release'">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Release\RemasterForms.dll</HintPath>
+      <HintPath>..\LibRelease\RemasterForms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
