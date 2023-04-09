@@ -190,11 +190,23 @@ namespace TestApp
                 rbCsRoundSmall.CheckedChanged += rbCornerStyle_CheckedChanged;
             }
 
-            TitleBar.DefaultCaption = cbShowCaption.Checked;
-            TitleBar.DefaultHeight  = true;
+            TitleBar.SystemCaption = cbShowCaption.Checked;
+            TitleBar.SystemHeight  = true;
 
             UpdateColors();
             UpdatePadding();
+        }
+
+        private void TestForm_SizingBegin(object sender, EventArgs e)
+        {
+            if (FrameStyle == FormFrameStyle.Embedded)
+                UpdatePadding();
+        }
+
+        private void TestForm_SizingEnd(object sender, EventArgs e)
+        {
+            if (FrameStyle == FormFrameStyle.Embedded)
+                UpdatePadding();
         }
 
         private void TestForm_WindowStateChanged(object sender, EventArgs e)
@@ -213,7 +225,7 @@ namespace TestApp
         {
             SuspendLayout();
 
-            TitleBar.DefaultCaption = cbShowCaption.Checked;
+            TitleBar.SystemCaption = cbShowCaption.Checked;
 
             UpdatePadding();
             ResumeLayout();

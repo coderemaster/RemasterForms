@@ -14,11 +14,6 @@
             Same as SystemInformation.HighContrast, but cached if handle is created.
             </summary>
         </member>
-        <member name="P:RemasterForms.CustomForm.Moving">
-            <summary>
-            If true, the window is being moved with the mouse.
-            </summary>
-        </member>
         <member name="P:RemasterForms.CustomForm.NormalBounds">
             <summary>
             Gets the bounds in restored state, which is not a snap layout, when window is minimized or maximized.
@@ -28,11 +23,6 @@
             <summary>
             Gets the state of a window before being either minimized.
             Relevant only when window is minimized.
-            </summary>
-        </member>
-        <member name="P:RemasterForms.CustomForm.Sizing">
-            <summary>
-            If true, the window is being resized with the mouse.
             </summary>
         </member>
         <member name="P:RemasterForms.CustomForm.WindowMetrics">

@@ -73,17 +73,16 @@
             this.flpClient.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flpClient.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flpClient.Location = new System.Drawing.Point(0, 0);
-            this.flpClient.Margin = new System.Windows.Forms.Padding(2);
             this.flpClient.Name = "flpClient";
-            this.flpClient.Padding = new System.Windows.Forms.Padding(5);
-            this.flpClient.Size = new System.Drawing.Size(533, 310);
+            this.flpClient.Padding = new System.Windows.Forms.Padding(8, 8, 8, 8);
+            this.flpClient.Size = new System.Drawing.Size(800, 443);
             this.flpClient.TabIndex = 1;
             // 
             // flpProp2
             // 
             this.flpProp2.AutoSize = true;
             this.flpProp2.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpProp2.Location = new System.Drawing.Point(5, 5);
+            this.flpProp2.Location = new System.Drawing.Point(8, 8);
             this.flpProp2.Margin = new System.Windows.Forms.Padding(0);
             this.flpProp2.Name = "flpProp2";
             this.flpProp2.Size = new System.Drawing.Size(0, 0);
@@ -97,20 +96,19 @@
             this.flpTestForm.Controls.Add(this.cbDarkMode);
             this.flpTestForm.Controls.Add(this.cbShowCaption);
             this.flpTestForm.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpTestForm.Location = new System.Drawing.Point(7, 7);
-            this.flpTestForm.Margin = new System.Windows.Forms.Padding(2);
+            this.flpTestForm.Location = new System.Drawing.Point(11, 11);
             this.flpTestForm.Name = "flpTestForm";
-            this.flpTestForm.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.flpTestForm.Size = new System.Drawing.Size(115, 75);
+            this.flpTestForm.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.flpTestForm.Size = new System.Drawing.Size(179, 121);
             this.flpTestForm.TabIndex = 21;
             // 
             // tTestForm
             // 
             this.tTestForm.AutoSize = true;
-            this.tTestForm.Location = new System.Drawing.Point(2, 2);
-            this.tTestForm.Margin = new System.Windows.Forms.Padding(2);
+            this.tTestForm.Location = new System.Drawing.Point(3, 3);
+            this.tTestForm.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.tTestForm.Name = "tTestForm";
-            this.tTestForm.Size = new System.Drawing.Size(61, 17);
+            this.tTestForm.Size = new System.Drawing.Size(96, 30);
             this.tTestForm.TabIndex = 0;
             this.tTestForm.Text = "TestForm";
             // 
@@ -118,10 +116,10 @@
             // 
             this.cbDarkMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbDarkMode.AutoSize = true;
-            this.cbDarkMode.Location = new System.Drawing.Point(5, 23);
-            this.cbDarkMode.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.cbDarkMode.Location = new System.Drawing.Point(8, 39);
+            this.cbDarkMode.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.cbDarkMode.Name = "cbDarkMode";
-            this.cbDarkMode.Size = new System.Drawing.Size(89, 21);
+            this.cbDarkMode.Size = new System.Drawing.Size(136, 34);
             this.cbDarkMode.TabIndex = 2;
             this.cbDarkMode.Text = "DarkMode";
             this.cbDarkMode.UseVisualStyleBackColor = false;
@@ -130,10 +128,10 @@
             // 
             this.cbShowCaption.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbShowCaption.AutoSize = true;
-            this.cbShowCaption.Location = new System.Drawing.Point(5, 48);
-            this.cbShowCaption.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.cbShowCaption.Location = new System.Drawing.Point(8, 79);
+            this.cbShowCaption.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.cbShowCaption.Name = "cbShowCaption";
-            this.cbShowCaption.Size = new System.Drawing.Size(103, 21);
+            this.cbShowCaption.Size = new System.Drawing.Size(161, 34);
             this.cbShowCaption.TabIndex = 5;
             this.cbShowCaption.Text = "ShowCaption";
             this.cbShowCaption.UseVisualStyleBackColor = false;
@@ -151,20 +149,19 @@
             this.flpCustomForm.Controls.Add(this.cbToolWindow);
             this.flpCustomForm.Controls.Add(this.cbSizeBox);
             this.flpCustomForm.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpCustomForm.Location = new System.Drawing.Point(7, 86);
-            this.flpCustomForm.Margin = new System.Windows.Forms.Padding(2);
+            this.flpCustomForm.Location = new System.Drawing.Point(196, 11);
             this.flpCustomForm.Name = "flpCustomForm";
-            this.flpCustomForm.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.flpCustomForm.Size = new System.Drawing.Size(115, 200);
+            this.flpCustomForm.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.flpCustomForm.Size = new System.Drawing.Size(180, 321);
             this.flpCustomForm.TabIndex = 20;
             // 
             // tCustomForm
             // 
             this.tCustomForm.AutoSize = true;
-            this.tCustomForm.Location = new System.Drawing.Point(2, 2);
-            this.tCustomForm.Margin = new System.Windows.Forms.Padding(2);
+            this.tCustomForm.Location = new System.Drawing.Point(3, 3);
+            this.tCustomForm.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.tCustomForm.Name = "tCustomForm";
-            this.tCustomForm.Size = new System.Drawing.Size(82, 17);
+            this.tCustomForm.Size = new System.Drawing.Size(131, 30);
             this.tCustomForm.TabIndex = 0;
             this.tCustomForm.Text = "CustomForm";
             // 
@@ -172,10 +169,10 @@
             // 
             this.cbCloseBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbCloseBox.AutoSize = true;
-            this.cbCloseBox.Location = new System.Drawing.Point(5, 23);
-            this.cbCloseBox.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.cbCloseBox.Location = new System.Drawing.Point(8, 39);
+            this.cbCloseBox.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.cbCloseBox.Name = "cbCloseBox";
-            this.cbCloseBox.Size = new System.Drawing.Size(80, 21);
+            this.cbCloseBox.Size = new System.Drawing.Size(123, 34);
             this.cbCloseBox.TabIndex = 6;
             this.cbCloseBox.Text = "CloseBox";
             this.cbCloseBox.UseVisualStyleBackColor = false;
@@ -184,10 +181,10 @@
             // 
             this.cbControlBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbControlBox.AutoSize = true;
-            this.cbControlBox.Location = new System.Drawing.Point(5, 48);
-            this.cbControlBox.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.cbControlBox.Location = new System.Drawing.Point(8, 79);
+            this.cbControlBox.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.cbControlBox.Name = "cbControlBox";
-            this.cbControlBox.Size = new System.Drawing.Size(91, 21);
+            this.cbControlBox.Size = new System.Drawing.Size(141, 34);
             this.cbControlBox.TabIndex = 17;
             this.cbControlBox.Text = "ControlBox";
             this.cbControlBox.UseVisualStyleBackColor = false;
@@ -196,10 +193,10 @@
             // 
             this.cbHelpButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbHelpButton.AutoSize = true;
-            this.cbHelpButton.Location = new System.Drawing.Point(5, 73);
-            this.cbHelpButton.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.cbHelpButton.Location = new System.Drawing.Point(8, 119);
+            this.cbHelpButton.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.cbHelpButton.Name = "cbHelpButton";
-            this.cbHelpButton.Size = new System.Drawing.Size(91, 21);
+            this.cbHelpButton.Size = new System.Drawing.Size(144, 34);
             this.cbHelpButton.TabIndex = 18;
             this.cbHelpButton.Text = "HelpButton";
             this.cbHelpButton.UseVisualStyleBackColor = false;
@@ -208,10 +205,10 @@
             // 
             this.cbMaximizeBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbMaximizeBox.AutoSize = true;
-            this.cbMaximizeBox.Location = new System.Drawing.Point(5, 98);
-            this.cbMaximizeBox.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.cbMaximizeBox.Location = new System.Drawing.Point(8, 159);
+            this.cbMaximizeBox.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.cbMaximizeBox.Name = "cbMaximizeBox";
-            this.cbMaximizeBox.Size = new System.Drawing.Size(103, 21);
+            this.cbMaximizeBox.Size = new System.Drawing.Size(162, 34);
             this.cbMaximizeBox.TabIndex = 7;
             this.cbMaximizeBox.Text = "MaximizeBox";
             this.cbMaximizeBox.UseVisualStyleBackColor = false;
@@ -220,10 +217,10 @@
             // 
             this.cbMinimizeBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbMinimizeBox.AutoSize = true;
-            this.cbMinimizeBox.Location = new System.Drawing.Point(5, 123);
-            this.cbMinimizeBox.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.cbMinimizeBox.Location = new System.Drawing.Point(8, 199);
+            this.cbMinimizeBox.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.cbMinimizeBox.Name = "cbMinimizeBox";
-            this.cbMinimizeBox.Size = new System.Drawing.Size(100, 21);
+            this.cbMinimizeBox.Size = new System.Drawing.Size(158, 34);
             this.cbMinimizeBox.TabIndex = 8;
             this.cbMinimizeBox.Text = "MinimizeBox";
             this.cbMinimizeBox.UseVisualStyleBackColor = false;
@@ -232,10 +229,10 @@
             // 
             this.cbToolWindow.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbToolWindow.AutoSize = true;
-            this.cbToolWindow.Location = new System.Drawing.Point(5, 148);
-            this.cbToolWindow.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.cbToolWindow.Location = new System.Drawing.Point(8, 239);
+            this.cbToolWindow.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.cbToolWindow.Name = "cbToolWindow";
-            this.cbToolWindow.Size = new System.Drawing.Size(99, 21);
+            this.cbToolWindow.Size = new System.Drawing.Size(153, 34);
             this.cbToolWindow.TabIndex = 13;
             this.cbToolWindow.Text = "ToolWindow";
             this.cbToolWindow.UseVisualStyleBackColor = false;
@@ -244,10 +241,10 @@
             // 
             this.cbSizeBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbSizeBox.AutoSize = true;
-            this.cbSizeBox.Location = new System.Drawing.Point(5, 173);
-            this.cbSizeBox.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.cbSizeBox.Location = new System.Drawing.Point(8, 279);
+            this.cbSizeBox.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.cbSizeBox.Name = "cbSizeBox";
-            this.cbSizeBox.Size = new System.Drawing.Size(71, 21);
+            this.cbSizeBox.Size = new System.Drawing.Size(110, 34);
             this.cbSizeBox.TabIndex = 9;
             this.cbSizeBox.Text = "SizeBox";
             this.cbSizeBox.UseVisualStyleBackColor = false;
@@ -261,30 +258,29 @@
             this.flpFrameStyle.Controls.Add(this.rbFsDefault);
             this.flpFrameStyle.Controls.Add(this.rbFsEmbedded);
             this.flpFrameStyle.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpFrameStyle.Location = new System.Drawing.Point(126, 7);
-            this.flpFrameStyle.Margin = new System.Windows.Forms.Padding(2);
+            this.flpFrameStyle.Location = new System.Drawing.Point(382, 11);
             this.flpFrameStyle.Name = "flpFrameStyle";
-            this.flpFrameStyle.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.flpFrameStyle.Size = new System.Drawing.Size(102, 100);
+            this.flpFrameStyle.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.flpFrameStyle.Size = new System.Drawing.Size(155, 161);
             this.flpFrameStyle.TabIndex = 14;
             // 
             // tFrameStyle
             // 
             this.tFrameStyle.AutoSize = true;
-            this.tFrameStyle.Location = new System.Drawing.Point(2, 2);
-            this.tFrameStyle.Margin = new System.Windows.Forms.Padding(2);
+            this.tFrameStyle.Location = new System.Drawing.Point(3, 3);
+            this.tFrameStyle.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.tFrameStyle.Name = "tFrameStyle";
-            this.tFrameStyle.Size = new System.Drawing.Size(71, 17);
+            this.tFrameStyle.Size = new System.Drawing.Size(113, 30);
             this.tFrameStyle.TabIndex = 0;
             this.tFrameStyle.Text = "FrameStyle";
             // 
             // rbFsNone
             // 
             this.rbFsNone.AutoSize = true;
-            this.rbFsNone.Location = new System.Drawing.Point(5, 23);
-            this.rbFsNone.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.rbFsNone.Location = new System.Drawing.Point(8, 39);
+            this.rbFsNone.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.rbFsNone.Name = "rbFsNone";
-            this.rbFsNone.Size = new System.Drawing.Size(58, 21);
+            this.rbFsNone.Size = new System.Drawing.Size(89, 34);
             this.rbFsNone.TabIndex = 1;
             this.rbFsNone.TabStop = true;
             this.rbFsNone.Text = "None";
@@ -293,10 +289,10 @@
             // rbFsDefault
             // 
             this.rbFsDefault.AutoSize = true;
-            this.rbFsDefault.Location = new System.Drawing.Point(5, 48);
-            this.rbFsDefault.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.rbFsDefault.Location = new System.Drawing.Point(8, 79);
+            this.rbFsDefault.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.rbFsDefault.Name = "rbFsDefault";
-            this.rbFsDefault.Size = new System.Drawing.Size(67, 21);
+            this.rbFsDefault.Size = new System.Drawing.Size(106, 34);
             this.rbFsDefault.TabIndex = 2;
             this.rbFsDefault.TabStop = true;
             this.rbFsDefault.Text = "Default";
@@ -305,10 +301,10 @@
             // rbFsEmbedded
             // 
             this.rbFsEmbedded.AutoSize = true;
-            this.rbFsEmbedded.Location = new System.Drawing.Point(5, 73);
-            this.rbFsEmbedded.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.rbFsEmbedded.Location = new System.Drawing.Point(8, 119);
+            this.rbFsEmbedded.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.rbFsEmbedded.Name = "rbFsEmbedded";
-            this.rbFsEmbedded.Size = new System.Drawing.Size(90, 21);
+            this.rbFsEmbedded.Size = new System.Drawing.Size(137, 34);
             this.rbFsEmbedded.TabIndex = 3;
             this.rbFsEmbedded.TabStop = true;
             this.rbFsEmbedded.Text = "Embedded";
@@ -324,30 +320,29 @@
             this.flpCornerStyle.Controls.Add(this.rbCsRound);
             this.flpCornerStyle.Controls.Add(this.rbCsRoundSmall);
             this.flpCornerStyle.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpCornerStyle.Location = new System.Drawing.Point(126, 111);
-            this.flpCornerStyle.Margin = new System.Windows.Forms.Padding(2);
+            this.flpCornerStyle.Location = new System.Drawing.Point(382, 178);
             this.flpCornerStyle.Name = "flpCornerStyle";
-            this.flpCornerStyle.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.flpCornerStyle.Size = new System.Drawing.Size(115, 125);
+            this.flpCornerStyle.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
+            this.flpCornerStyle.Size = new System.Drawing.Size(178, 201);
             this.flpCornerStyle.TabIndex = 5;
             // 
             // tCornerStyle
             // 
             this.tCornerStyle.AutoSize = true;
-            this.tCornerStyle.Location = new System.Drawing.Point(2, 2);
-            this.tCornerStyle.Margin = new System.Windows.Forms.Padding(2);
+            this.tCornerStyle.Location = new System.Drawing.Point(3, 3);
+            this.tCornerStyle.Margin = new System.Windows.Forms.Padding(3, 3, 3, 3);
             this.tCornerStyle.Name = "tCornerStyle";
-            this.tCornerStyle.Size = new System.Drawing.Size(75, 17);
+            this.tCornerStyle.Size = new System.Drawing.Size(118, 30);
             this.tCornerStyle.TabIndex = 0;
             this.tCornerStyle.Text = "CornerStyle";
             // 
             // rbCsDefault
             // 
             this.rbCsDefault.AutoSize = true;
-            this.rbCsDefault.Location = new System.Drawing.Point(5, 23);
-            this.rbCsDefault.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.rbCsDefault.Location = new System.Drawing.Point(8, 39);
+            this.rbCsDefault.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.rbCsDefault.Name = "rbCsDefault";
-            this.rbCsDefault.Size = new System.Drawing.Size(67, 21);
+            this.rbCsDefault.Size = new System.Drawing.Size(106, 34);
             this.rbCsDefault.TabIndex = 1;
             this.rbCsDefault.TabStop = true;
             this.rbCsDefault.Text = "Default";
@@ -356,10 +351,10 @@
             // rbCsDoNotRound
             // 
             this.rbCsDoNotRound.AutoSize = true;
-            this.rbCsDoNotRound.Location = new System.Drawing.Point(5, 48);
-            this.rbCsDoNotRound.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.rbCsDoNotRound.Location = new System.Drawing.Point(8, 79);
+            this.rbCsDoNotRound.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.rbCsDoNotRound.Name = "rbCsDoNotRound";
-            this.rbCsDoNotRound.Size = new System.Drawing.Size(103, 21);
+            this.rbCsDoNotRound.Size = new System.Drawing.Size(160, 34);
             this.rbCsDoNotRound.TabIndex = 2;
             this.rbCsDoNotRound.TabStop = true;
             this.rbCsDoNotRound.Text = "DoNotRound";
@@ -368,10 +363,10 @@
             // rbCsRound
             // 
             this.rbCsRound.AutoSize = true;
-            this.rbCsRound.Location = new System.Drawing.Point(5, 73);
-            this.rbCsRound.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.rbCsRound.Location = new System.Drawing.Point(8, 119);
+            this.rbCsRound.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.rbCsRound.Name = "rbCsRound";
-            this.rbCsRound.Size = new System.Drawing.Size(64, 21);
+            this.rbCsRound.Size = new System.Drawing.Size(98, 34);
             this.rbCsRound.TabIndex = 3;
             this.rbCsRound.TabStop = true;
             this.rbCsRound.Text = "Round";
@@ -380,10 +375,10 @@
             // rbCsRoundSmall
             // 
             this.rbCsRoundSmall.AutoSize = true;
-            this.rbCsRoundSmall.Location = new System.Drawing.Point(5, 98);
-            this.rbCsRoundSmall.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.rbCsRoundSmall.Location = new System.Drawing.Point(8, 159);
+            this.rbCsRoundSmall.Margin = new System.Windows.Forms.Padding(8, 3, 8, 3);
             this.rbCsRoundSmall.Name = "rbCsRoundSmall";
-            this.rbCsRoundSmall.Size = new System.Drawing.Size(95, 21);
+            this.rbCsRoundSmall.Size = new System.Drawing.Size(148, 34);
             this.rbCsRoundSmall.TabIndex = 4;
             this.rbCsRoundSmall.TabStop = true;
             this.rbCsRoundSmall.Text = "RoundSmall";
@@ -391,14 +386,17 @@
             // 
             // TestForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(144F, 144F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-            this.ClientSize = new System.Drawing.Size(533, 310);
+            this.ClientSize = new System.Drawing.Size(800, 443);
             this.Controls.Add(this.flpClient);
             this.KeyPreview = true;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "TestForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RemasterForms";
+            this.SizingBegin += new System.EventHandler(this.TestForm_SizingBegin);
+            this.SizingEnd += new System.EventHandler(this.TestForm_SizingEnd);
             this.WindowStateChanged += new System.EventHandler(this.TestForm_WindowStateChanged);
             this.Load += new System.EventHandler(this.TestForm_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TestForm_KeyPress);
