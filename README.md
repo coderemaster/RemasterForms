@@ -1,11 +1,11 @@
-![](Remaster_Logo.png)
 
-### RemasterForms fixes bugs and extends the functionality of the WinForms library.
+# RemasterForms 
 
-### Primary tasks:
+##### RemasterForms fixes bugs and extends the WinForms library.
+
+### Features:
 * custom title bar
-* color themes
+* custom window border
+* custom window menu
 
-
-
-
+### Full description coming soon...
