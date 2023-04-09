@@ -1,7 +1,7 @@
 
 # RemasterForms 
 
-##### RemasterForms fixes bugs and extends the WinForms library.
+RemasterForms fixes bugs and extends the WinForms library.
 
 ### Features:
 * custom title bar
