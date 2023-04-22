@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Drawing.Text;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,25 +13,148 @@ using System.Windows.Forms;
 
 namespace TestApp
 {
-    public partial class TestForm : CustomForm
+    public partial class TestForm : BaseForm
     {
-        private static readonly bool NoCornerStyle = Environment.OSVersion.Version.Build < 22000;
-        private static readonly bool NoDarkMode    = Environment.OSVersion.Version.Build < 17763;
-
-        private bool DarkMode = false;
+        private readonly bool Windows11 = 22000 <= Environment.OSVersion.Version.Build;
 
         public TestForm()
         {
             InitializeComponent();
         }
 
-        #region ## custom frame
+        #region ## custom border
+
+        int BorderHeight = 0;
+
+        private void UpdateBorder()
+        {
+            if (WindowState == FormWindowState.Minimized)
+                return;
+
+            int newBorderHeight = 0;
+            int newGlassHeight  = 0;
+
+            if (FormBorderStyle != FormBorderStyle.None && WindowState != FormWindowState.Maximized)
+            {
+                if (SystemInformation.HighContrast)
+                {
+                    newBorderHeight = 2;
+                    newGlassHeight  = 1;
+                }
+                else if (!Windows11 && !(ToolWindow && ControlBox))
+                {
+                    newBorderHeight = 1;
+                    newGlassHeight  = 2;
+                }
+            }
+
+            int maxHeight = Math.Max(
+                Math.Max(BorderHeight,    newBorderHeight),
+                Math.Max(GlassInsets.Top, newGlassHeight ));
+
+            BorderHeight = newBorderHeight;
+            GlassInsets  = new Padding(0, newGlassHeight, 0, 0);
+
+            if (IsHandleCreated)
+            {
+                Invalidate(new Rectangle(0, 0, ClientSize.Width, maxHeight));
+                Update();
+            }
+        }
+
+        protected override void OnHighContrastChanged(EventArgs e)
+        {
+            if (FormFrameStyle == FormFrameStyle.Default)
+                UpdateBorder();
+        }
+
+        protected override void OnNonClientActiveChanged(EventArgs e)
+        {
+            int maxHeight = Math.Max(BorderHeight, GlassInsets.Top);
+
+            if (0 < maxHeight)
+                Invalidate(new Rectangle(0, 0, ClientSize.Width, maxHeight));
+        }
+
+        protected override void OnPaintBackground(PaintEventArgs e)
+        {
+            if (0 < GlassInsets.Top)
+            {
+                var eraseColor = DoubleBuffered
+                    ? Color.Transparent
+                    : Color.Black;
+
+                if (0 < BorderHeight)
+                {
+                    using (var brush = new SolidBrush(eraseColor))
+                    {
+                        e.Graphics.FillRectangle(
+                            brush,
+                            new Rectangle(0, 0, ClientSize.Width, 1));
+                    }
+                }
+
+                if (1 < BorderHeight) // high contrast
+                {
+                    var captionColor = NonClientActive
+                        ? SystemColors.ActiveCaption
+                        : SystemColors.InactiveCaption;
+
+                    using (var pen = new Pen(captionColor))
+                        e.Graphics.DrawLine(pen, 0, 1, ClientSize.Width - 1, 1);
+                }
+                else
+                {
+                    using (var pen = new Pen(BackColor))
+                        e.Graphics.DrawLine(pen, 0, BorderHeight, ClientSize.Width - 1, BorderHeight);
+                }
+
+                e.Graphics.ExcludeClip(
+                    new Rectangle(0, 0, ClientSize.Width, Math.Max(BorderHeight, GlassInsets.Top)));
+            }
+
+            using (var brush = new SolidBrush(BackColor))
+                e.Graphics.FillRectangle(brush, ClientRectangle);
+        }
+
+        protected override void OnStyleChanged(EventArgs e)
+        {
+            base.OnStyleChanged(e);
+            UpdateBorder();
+        }
+
+        protected override void OnWindowStateChanged(EventArgs e)
+        {
+            if (FormFrameStyle == FormFrameStyle.Default)
+                UpdateBorder();
+        }
+
+        #endregion custom border
+
+        #region ## system menu
+
+        bool SizeMoveMode;
+
+        protected override NonClientCode NonClientHitTest(Point pt)
+        {
+            var code = base.NonClientHitTest(pt);
+
+            return (!SizeMoveMode && code == NonClientCode.Caption)
+                ? NonClientCode.Nowhere
+                : code;
+        }
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
-                WindowMenu.Show(e.Location);
+                if (cbSmCaption.Checked)
+                {
+                    ControlBox = true;
+                    ShowSystemMenu(PointToScreen(e.Location));
+                    ControlBox = cbSmTaskbar.Checked;
+                }
+
                 return;
             }
 
@@ -41,10 +163,25 @@ namespace TestApp
 
         protected override void OnMouseDoubleClick(MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && MaximizeBox)
+            if (e.Button == MouseButtons.Left)
             {
-                TitleBar.PerformDoubleClick();
-                return;
+                switch (WindowState)
+                {
+                    case FormWindowState.Normal:
+                        {
+                            var cmd = (Bounds == NormalBounds)
+                                ? SystemCommand.Maximize
+                                : SystemCommand.Restore;
+
+                            SendSystemCommand(cmd);
+                            return;
+                        }
+                    case FormWindowState.Maximized:
+                        {
+                            SendSystemCommand(SystemCommand.Restore);
+                            return;
+                        }
+                }
             }
 
             base.OnMouseDoubleClick(e);
@@ -61,51 +198,65 @@ namespace TestApp
             base.OnMouseMove(e);
         }
 
+        protected override void OnResizeBegin(EventArgs e)
+        {
+            base.OnResizeBegin(e);
+            SizeMoveMode = true;
+        }
+
+        protected override void OnResizeEnd(EventArgs e)
+        {
+            base.OnResizeEnd(e);
+            SizeMoveMode = false;
+        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             if (keyData == (Keys.Alt | Keys.Space))
             {
-                _ = DwmFrame.CornerStyle;
-                WindowMenu.Show();
+                if (cbSmAltSpace.Checked)
+                {
+                    ControlBox = true;
+                    ShowSystemMenu();
+                    ControlBox = cbSmTaskbar.Checked;
+                }
+
                 return true;
             }
 
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        #endregion custom frame
+        #endregion system menu
 
         #region ## interface
 
+        protected override void OnNonClientMetricsChanged(EventArgs e)
+        {
+            Font = SystemFonts.MessageBoxFont;
+        }
+
         private void UpdateColors()
         {
-            if (NoDarkMode)
-                return;
-
-            if (DarkMode)
+            if (SystemInformation.HighContrast)
             {
-                BackColor = Color.FromArgb(21, 21, 21);
+                BackColor = SystemColors.Control;
+                ForeColor = SystemColors.ControlText;
+            }
+            else if (cbDarkMode.Checked)
+            {
+                BackColor = Color.FromArgb(43, 43, 43);
                 ForeColor = Color.White;
+
+                DarkMode = true;
             }
             else
             {
-                BackColor = Color.FromArgb(234, 234, 234);
+                BackColor = Color.White;
                 ForeColor = Color.Black;
+
+                DarkMode = false;
             }
-        }
-
-        private void UpdatePadding()
-        {
-            var defStyles = new WindowStyles()
-            {
-                Caption = true,
-                SizeBox = true
-            };
-
-            var defPadding = new WindowMetrics(defStyles).FramePadding; 
-
-            Padding = WindowMetrics.FramePadding - NonClientPadding;
-            flpClient.Padding = defPadding - Padding;
         }
 
         private void TestForm_KeyPress(object sender, KeyPressEventArgs e)
@@ -116,70 +267,36 @@ namespace TestApp
 
         private void TestForm_Load(object sender, EventArgs e)
         {
-            if (NoDarkMode)
-            {
-                cbDarkMode.Visible = false;
-            }
-            else
-            {
-                cbDarkMode.Checked = DarkMode;
-                cbDarkMode.CheckedChanged += cbDarkMode_CheckedChanged;
-            }
-
-            cbShowCaption.Checked = false;
-            cbShowCaption.CheckedChanged += cbShowCaption_CheckedChanged;
+            Padding = SystemFrameMetrics.DefaultWindow.FramePadding;
 
             cbCloseBox.Checked    = CloseBox;
-            cbControlBox.Checked  = ControlBox;
-            cbHelpButton.Checked  = HelpButton;
+            cbDarkMode.Checked    = false;
             cbMaximizeBox.Checked = MaximizeBox;
             cbMinimizeBox.Checked = MinimizeBox;
             cbSizeBox.Checked     = SizeBox;
             cbToolWindow.Checked  = ToolWindow;
 
             cbCloseBox.CheckedChanged    += (_s, _e) => CloseBox      = cbCloseBox.Checked;
-            cbControlBox.CheckedChanged  += (_s, _e) => ControlBox    = cbControlBox.Checked;
-            cbHelpButton.CheckedChanged  += (_s, _e) => HelpButton    = cbHelpButton.Checked;
+            cbDarkMode.CheckedChanged    += (_s, _e) => UpdateColors();
             cbMaximizeBox.CheckedChanged += (_s, _e) => MaximizeBox   = cbMaximizeBox.Checked;
             cbMinimizeBox.CheckedChanged += (_s, _e) => MinimizeBox   = cbMinimizeBox.Checked;
             cbSizeBox.CheckedChanged     += (_s, _e) => SizeBox       = cbSizeBox.Checked;
             cbToolWindow.CheckedChanged  += (_s, _e) => ToolWindow    = cbToolWindow.Checked;
 
-            switch (FrameStyle)
+            if (Windows11)
             {
-                case FormFrameStyle.None:
-                    rbFsNone.Checked = true;
-                    break;
-                case FormFrameStyle.Default:
-                    rbFsDefault.Checked = true;
-                    break;
-                case FormFrameStyle.Embedded:
-                    rbFsEmbedded.Checked = true;
-                    break;
-            }
-
-            rbFsNone.CheckedChanged     += rbFrameStyle_CheckedChanged;
-            rbFsDefault.CheckedChanged  += rbFrameStyle_CheckedChanged;
-            rbFsEmbedded.CheckedChanged += rbFrameStyle_CheckedChanged;
-
-            if (NoCornerStyle)
-            {
-                flpCornerStyle.Visible = false;
-            }
-            else
-            {
-                switch (DwmFrame.CornerStyle)
+                switch (CornerStyle)
                 {
-                    case DwmCornerStyle.Default:
+                    case CornerStyle.Default:
                         rbCsDefault.Checked = true;
                         break;
-                    case DwmCornerStyle.DoNotRound:
+                    case CornerStyle.DoNotRound:
                         rbCsDoNotRound.Checked = true;
                         break;
-                    case DwmCornerStyle.Round:
+                    case CornerStyle.Round:
                         rbCsRound.Checked = true;
                         break;
-                    case DwmCornerStyle.RoundSmall:
+                    case CornerStyle.RoundSmall:
                         rbCsRoundSmall.Checked = true;
                         break;
                 }
@@ -189,73 +306,63 @@ namespace TestApp
                 rbCsRound.CheckedChanged      += rbCornerStyle_CheckedChanged;
                 rbCsRoundSmall.CheckedChanged += rbCornerStyle_CheckedChanged;
             }
+            else
+            {
+                flpCornerStyle.Visible = false;
+            }
 
-            TitleBar.SystemCaption = cbShowCaption.Checked;
-            TitleBar.SystemHeight  = true;
+            switch (FormFrameStyle)
+            {
+                case FormFrameStyle.None:
+                    rbFfsNone.Checked = true;
+                    break;
+                case FormFrameStyle.Default:
+                    rbFfsDefault.Checked = true;
+                    break;
+            }
+
+            rbFfsNone.CheckedChanged    += rbFormFrameStyle_CheckedChanged;
+            rbFfsDefault.CheckedChanged += rbFormFrameStyle_CheckedChanged;
+
+            cbSmAltSpace.Checked = true;
+            cbSmCaption.Checked  = true;
+            cbSmTaskbar.Checked  = ControlBox;
+
+            cbSmTaskbar.CheckedChanged += (_s, _e) => ControlBox = cbSmTaskbar.Checked;
 
             UpdateColors();
-            UpdatePadding();
-        }
-
-        private void TestForm_SizingBegin(object sender, EventArgs e)
-        {
-            if (FrameStyle == FormFrameStyle.Embedded)
-                UpdatePadding();
-        }
-
-        private void TestForm_SizingEnd(object sender, EventArgs e)
-        {
-            if (FrameStyle == FormFrameStyle.Embedded)
-                UpdatePadding();
-        }
-
-        private void TestForm_WindowStateChanged(object sender, EventArgs e)
-        {
-            UpdatePadding();
-        }
-
-        private void cbDarkMode_CheckedChanged(object sender, EventArgs e)
-        {
-            DarkMode = cbDarkMode.Checked;
-            DwmFrame.DarkMode = DarkMode;
-            UpdateColors();
-        }
-
-        private void cbShowCaption_CheckedChanged(object sender, EventArgs e)
-        {
-            SuspendLayout();
-
-            TitleBar.SystemCaption = cbShowCaption.Checked;
-
-            UpdatePadding();
-            ResumeLayout();
-        }
-
-        private void rbFrameStyle_CheckedChanged(object sender, EventArgs e)
-        {
-            SuspendLayout();
-
-            if (rbFsNone.Checked)
-                FrameStyle = FormFrameStyle.None;
-            else if (rbFsDefault.Checked)
-                FrameStyle = FormFrameStyle.Default;
-            else if (rbFsEmbedded.Checked)
-                FrameStyle = FormFrameStyle.Embedded;
-
-            UpdatePadding();
-            ResumeLayout();
+            SystemColorsChanged += (_s, _e) => UpdateColors();
         }
 
         private void rbCornerStyle_CheckedChanged(object sender, EventArgs e)
         {
             if (rbCsDefault.Checked)
-                DwmFrame.CornerStyle = DwmCornerStyle.Default;
+                CornerStyle = CornerStyle.Default;
             else if (rbCsDoNotRound.Checked)
-                DwmFrame.CornerStyle = DwmCornerStyle.DoNotRound;
+                CornerStyle = CornerStyle.DoNotRound;
             else if (rbCsRound.Checked)
-                DwmFrame.CornerStyle = DwmCornerStyle.Round;
+                CornerStyle = CornerStyle.Round;
             else if (rbCsRoundSmall.Checked)
-                DwmFrame.CornerStyle = DwmCornerStyle.RoundSmall;
+                CornerStyle = CornerStyle.RoundSmall;
+        }
+
+        private void rbFormFrameStyle_CheckedChanged(object sender, EventArgs e)
+        {
+            var clientRect = NormalBounds.Shrink(DefaultNonClientPadding);
+
+            LockBounds();
+            SuspendLayout();
+
+            if (rbFfsNone.Checked)
+                FormFrameStyle = FormFrameStyle.None;
+            else if (rbFfsDefault.Checked)
+                FormFrameStyle = FormFrameStyle.Default;
+
+            UnlockBounds();
+
+            Bounds = clientRect.Grow(DefaultNonClientPadding);
+
+            ResumeLayout();
         }
 
         #endregion interface
