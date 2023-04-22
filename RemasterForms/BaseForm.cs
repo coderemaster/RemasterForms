@@ -734,7 +734,7 @@ namespace RemasterForms
             if (BoundsLocked)
                 return;
 
-            if (IsRestored)
+            if (!IsHandleCreated)
             {
                 base.SetBoundsCore(x, y, width, height, specified);
                 return;

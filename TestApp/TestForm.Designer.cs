@@ -44,20 +44,20 @@
             this.rbCsDoNotRound = new System.Windows.Forms.RadioButton();
             this.rbCsRound = new System.Windows.Forms.RadioButton();
             this.rbCsRoundSmall = new System.Windows.Forms.RadioButton();
+            this.flpFormFrameStyle = new System.Windows.Forms.FlowLayoutPanel();
+            this.tFormFrameStyle = new System.Windows.Forms.Label();
+            this.rbFfsNone = new System.Windows.Forms.RadioButton();
+            this.rbFfsDefault = new System.Windows.Forms.RadioButton();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.tSystemMenu = new System.Windows.Forms.Label();
             this.cbSmAltSpace = new System.Windows.Forms.CheckBox();
             this.cbSmCaption = new System.Windows.Forms.CheckBox();
             this.cbSmTaskbar = new System.Windows.Forms.CheckBox();
-            this.flpFormFrameStyle = new System.Windows.Forms.FlowLayoutPanel();
-            this.tFormFrameStyle = new System.Windows.Forms.Label();
-            this.rbFfsNone = new System.Windows.Forms.RadioButton();
-            this.rbFfsDefault = new System.Windows.Forms.RadioButton();
             this.flpClient.SuspendLayout();
             this.flpCustomForm.SuspendLayout();
             this.flpCornerStyle.SuspendLayout();
-            this.flowLayoutPanel1.SuspendLayout();
             this.flpFormFrameStyle.SuspendLayout();
+            this.flowLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // flpClient
@@ -262,6 +262,55 @@
             this.rbCsRoundSmall.Text = "RoundSmall";
             this.rbCsRoundSmall.UseVisualStyleBackColor = true;
             // 
+            // flpFormFrameStyle
+            // 
+            this.flpFormFrameStyle.AutoSize = true;
+            this.flpFormFrameStyle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.flpFormFrameStyle.Controls.Add(this.tFormFrameStyle);
+            this.flpFormFrameStyle.Controls.Add(this.rbFfsNone);
+            this.flpFormFrameStyle.Controls.Add(this.rbFfsDefault);
+            this.flpFormFrameStyle.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.flpFormFrameStyle.Location = new System.Drawing.Point(130, 146);
+            this.flpFormFrameStyle.Margin = new System.Windows.Forms.Padding(2);
+            this.flpFormFrameStyle.Name = "flpFormFrameStyle";
+            this.flpFormFrameStyle.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
+            this.flpFormFrameStyle.Size = new System.Drawing.Size(114, 81);
+            this.flpFormFrameStyle.TabIndex = 23;
+            // 
+            // tFormFrameStyle
+            // 
+            this.tFormFrameStyle.AutoSize = true;
+            this.tFormFrameStyle.Location = new System.Drawing.Point(2, 2);
+            this.tFormFrameStyle.Margin = new System.Windows.Forms.Padding(2);
+            this.tFormFrameStyle.Name = "tFormFrameStyle";
+            this.tFormFrameStyle.Size = new System.Drawing.Size(108, 19);
+            this.tFormFrameStyle.TabIndex = 0;
+            this.tFormFrameStyle.Text = "FormFrameStyle";
+            // 
+            // rbFfsNone
+            // 
+            this.rbFfsNone.AutoSize = true;
+            this.rbFfsNone.Location = new System.Drawing.Point(5, 25);
+            this.rbFfsNone.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.rbFfsNone.Name = "rbFfsNone";
+            this.rbFfsNone.Size = new System.Drawing.Size(60, 23);
+            this.rbFfsNone.TabIndex = 1;
+            this.rbFfsNone.TabStop = true;
+            this.rbFfsNone.Text = "None";
+            this.rbFfsNone.UseVisualStyleBackColor = true;
+            // 
+            // rbFfsDefault
+            // 
+            this.rbFfsDefault.AutoSize = true;
+            this.rbFfsDefault.Location = new System.Drawing.Point(5, 52);
+            this.rbFfsDefault.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
+            this.rbFfsDefault.Name = "rbFfsDefault";
+            this.rbFfsDefault.Size = new System.Drawing.Size(71, 23);
+            this.rbFfsDefault.TabIndex = 2;
+            this.rbFfsDefault.TabStop = true;
+            this.rbFfsDefault.Text = "Default";
+            this.rbFfsDefault.UseVisualStyleBackColor = true;
+            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.AutoSize = true;
@@ -324,55 +373,6 @@
             this.cbSmTaskbar.Text = "Taskbar";
             this.cbSmTaskbar.UseVisualStyleBackColor = false;
             // 
-            // flpFormFrameStyle
-            // 
-            this.flpFormFrameStyle.AutoSize = true;
-            this.flpFormFrameStyle.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.flpFormFrameStyle.Controls.Add(this.tFormFrameStyle);
-            this.flpFormFrameStyle.Controls.Add(this.rbFfsNone);
-            this.flpFormFrameStyle.Controls.Add(this.rbFfsDefault);
-            this.flpFormFrameStyle.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
-            this.flpFormFrameStyle.Location = new System.Drawing.Point(130, 146);
-            this.flpFormFrameStyle.Margin = new System.Windows.Forms.Padding(2);
-            this.flpFormFrameStyle.Name = "flpFormFrameStyle";
-            this.flpFormFrameStyle.Padding = new System.Windows.Forms.Padding(0, 0, 0, 2);
-            this.flpFormFrameStyle.Size = new System.Drawing.Size(114, 81);
-            this.flpFormFrameStyle.TabIndex = 23;
-            // 
-            // tFormFrameStyle
-            // 
-            this.tFormFrameStyle.AutoSize = true;
-            this.tFormFrameStyle.Location = new System.Drawing.Point(2, 2);
-            this.tFormFrameStyle.Margin = new System.Windows.Forms.Padding(2);
-            this.tFormFrameStyle.Name = "tFormFrameStyle";
-            this.tFormFrameStyle.Size = new System.Drawing.Size(108, 19);
-            this.tFormFrameStyle.TabIndex = 0;
-            this.tFormFrameStyle.Text = "FormFrameStyle";
-            // 
-            // rbFfsNone
-            // 
-            this.rbFfsNone.AutoSize = true;
-            this.rbFfsNone.Location = new System.Drawing.Point(5, 25);
-            this.rbFfsNone.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
-            this.rbFfsNone.Name = "rbFfsNone";
-            this.rbFfsNone.Size = new System.Drawing.Size(60, 23);
-            this.rbFfsNone.TabIndex = 1;
-            this.rbFfsNone.TabStop = true;
-            this.rbFfsNone.Text = "None";
-            this.rbFfsNone.UseVisualStyleBackColor = true;
-            // 
-            // rbFfsDefault
-            // 
-            this.rbFfsDefault.AutoSize = true;
-            this.rbFfsDefault.Location = new System.Drawing.Point(5, 52);
-            this.rbFfsDefault.Margin = new System.Windows.Forms.Padding(5, 2, 5, 2);
-            this.rbFfsDefault.Name = "rbFfsDefault";
-            this.rbFfsDefault.Size = new System.Drawing.Size(71, 23);
-            this.rbFfsDefault.TabIndex = 2;
-            this.rbFfsDefault.TabStop = true;
-            this.rbFfsDefault.Text = "Default";
-            this.rbFfsDefault.UseVisualStyleBackColor = true;
-            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -391,10 +391,10 @@
             this.flpCustomForm.PerformLayout();
             this.flpCornerStyle.ResumeLayout(false);
             this.flpCornerStyle.PerformLayout();
-            this.flowLayoutPanel1.ResumeLayout(false);
-            this.flowLayoutPanel1.PerformLayout();
             this.flpFormFrameStyle.ResumeLayout(false);
             this.flpFormFrameStyle.PerformLayout();
+            this.flowLayoutPanel1.ResumeLayout(false);
+            this.flowLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
