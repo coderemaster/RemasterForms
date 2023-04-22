@@ -1,11 +1,23 @@
 
 # RemasterForms 
 
-RemasterForms fixes bugs and extends the WinForms library.
+RemasterForms is a platform for creating customized windows.
 
-### Features:
-* custom title bar
-* custom window border
-* custom window menu
+### Features
+* Custom Border
+* Custom Caption
+* Custom Window Menu
 
-### Full description coming soon...
+#
+###### Windows 10
+![](Description/Windows10.gif)
+
+###### Windows 11
+![](Description/Windows11.gif)
+
+###### High Contrast
+![](Description/HighContrast.gif)
+
+###### Design Mode
+![](Description/DesignMode.gif)
+
