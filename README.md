@@ -10,18 +10,19 @@ RemasterForms is a platform for creating customized windows.
 * [Custom Color Themes](#planned)
 
 #
-###### Windows 11
+##### Windows 11
 ![](Description/Windows11.gif)
 
-###### Windows 10
+##### Windows 10
 ![](Description/Windows10.gif)
 
-###### High Contrast
+##### High Contrast
 ![](Description/HighContrast.gif)
 
-###### Design Mode
+##### Design Mode
 ![](Description/DesignMode.gif)
 
+#
 ### Description
 > ##### Coming soon...  
 >> ##### ! Important
@@ -29,19 +30,21 @@ RemasterForms is a platform for creating customized windows.
 >>
 >> To support high DPI, an application must be configured in the App.config and App.manifest files (see the included TestApp project).  
 
+#
 ### Planned
 > To boost my work, please [support](#donation) this project with a [donation](#donation).
 
-###### Custom Title Bar
+##### Custom Title Bar
 * drawing buttons directly on the form
 * binding other components to the caption
 
-###### Custom Window Menu
+##### Custom Window Menu
 * modifying system items and inserting new items
 
-###### Custom Color Themes
+##### Custom Color Themes
 * remastering of standard controls to support color themes
 
+#
 ### Donation  
   
 BUSD (BEP-20)  
