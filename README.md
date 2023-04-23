@@ -47,14 +47,14 @@ RemasterForms is a platform for creating customized windows.
 #
 ### Donation  
   
-###### BUSD (BEP-20)  
+###### BUSD (BEP-20)
 ###### [0xA1253F5b67274477A60A84979278D6De6484f507](https://link.trustwallet.com/send?coin=20000714&address=0xA1253F5b67274477A60A84979278D6De6484f507&token_id=0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56)  
 
-###### USDT (TRC-20)  
+###### USDT (TRC-20)
 ###### [TSntPfU8aMiq12mndcmt2iWXqwD7TSKJum](https://link.trustwallet.com/send?coin=195&address=TSntPfU8aMiq12mndcmt2iWXqwD7TSKJum&token_id=TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t)  
 
-###### BTC  
+###### BTC
 ###### [bc1qq6a757zpu5982j24xwfvx67l4hw96ulke5j0vc](https://link.trustwallet.com/send?coin=0&address=bc1qq6a757zpu5982j24xwfvx67l4hw96ulke5j0vc)  
 
-###### ETH  
+###### ETH
 ###### [0xA1253F5b67274477A60A84979278D6De6484f507](https://link.trustwallet.com/send?coin=60&address=0xA1253F5b67274477A60A84979278D6De6484f507)  
