@@ -34,14 +34,14 @@ RemasterForms is a platform for creating customized windows.
 ### Planned
 > To boost my work, please [support](#donation) this project with a [donation](#donation).
 
-##### Custom Title Bar
+#### Custom Title Bar
 * drawing buttons directly on the form
 * binding other components to the caption
 
-##### Custom Window Menu
+#### Custom Window Menu
 * modifying system items and inserting new items
 
-##### Custom Color Themes
+#### Custom Color Themes
 * remastering of standard controls to support color themes
 
 #
