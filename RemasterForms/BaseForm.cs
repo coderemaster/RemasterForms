@@ -212,7 +212,7 @@ namespace RemasterForms
 
         // FormBorderStyle
         /// <summary>
-        /// Replaced by SizeBox, ToolWindow and WindowBorder properties.
+        /// Replaced by FormFrameStyle, SizeBox and ToolWindow properties.
         /// </summary>
         [Browsable(false), EditorBrowsable(EditorBrowsableState.Never)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
