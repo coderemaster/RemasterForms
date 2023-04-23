@@ -67,6 +67,7 @@ namespace RemasterForms
         }
 
         // ClientSize
+        // show in designer
         [Browsable(true), Category("Layout")]
         public new Size ClientSize
         {
@@ -351,6 +352,7 @@ namespace RemasterForms
         }
 
         // Size
+        // hide in designer
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new Size Size
