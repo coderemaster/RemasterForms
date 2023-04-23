@@ -3,29 +3,29 @@
 
 RemasterForms is a platform for creating customized windows.
 
-###Features
+### Features
 * Custom Window Border
 * [Custom Title Bar](#planned)
 * [Custom Window Menu](#planned)
 * [Custom Color Themes](#planned)
 
 #
-#####Windows 11
+##### Windows 11
 ![](Description/Windows11.gif)
 
-#####Windows 10
+##### Windows 10
 ![](Description/Windows10.gif)
 
-#####High Contrast
+##### High Contrast
 ![](Description/HighContrast.gif)
 
-#####Design Mode
+##### Design Mode
 ![](Description/DesignMode.gif)
 
 #
-###Description
->###Coming soon...  
->>###! Important
+### Description
+>### Coming soon...  
+>>### ! Important
 >>[High DPI support in Windows Forms](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/high-dpi-support-in-windows-forms?view=netframeworkdesktop-4.8)
 >>
 >>To support high DPI, an application must be configured in the App.config and App.manifest files (see the included TestApp project).  
