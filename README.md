@@ -1,7 +1,7 @@
 
 # RemasterForms 
 
-RemasterForms is a platform for creating customized windows.
+RemasterForms is a platform for creating custom forms.
 
 ### Content
 * [Custom Window Border](#description)
@@ -26,7 +26,7 @@ RemasterForms is a platform for creating customized windows.
 ### Description
 >#### Features
 >> Native transition animations  
->> Native DWM Border *  
+>> Native DWM border *  
 >> Improved system menu  
 >> Snap layouts are supported  
 >> Right-to-left mode is supported  
