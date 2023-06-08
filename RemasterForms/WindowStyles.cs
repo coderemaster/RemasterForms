@@ -9,79 +9,71 @@ namespace RemasterForms
 
     internal struct WindowStyles
     {
-        public int ExStyle;
-        public int Style  ;
+        #region ## fields
 
-        internal WindowStyles(int style, int exStyle)
+        public int Style  ;
+        public int ExStyle;
+
+        #endregion fields
+
+        #region ## constructors
+
+        public WindowStyles(int style, int exStyle)
         {
             Style   = style;
             ExStyle = exStyle;
         }
 
-        internal WindowStyles(CreateParams cp)
+        public WindowStyles(CreateParams cp)
             : this(cp.Style, cp.ExStyle) { }
 
-        internal WindowStyles(IntPtr hWnd)
+        public WindowStyles(IntPtr hWnd)
             : this((int)GetWindowLong(hWnd, GWL_STYLE), (int)GetWindowLong(hWnd, GWL_EXSTYLE)) { }
 
-        public static readonly WindowStyles Default = new WindowStyles(
-            WS_CAPTION | WS_SIZEBOX | WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_SYSMENU, 
-            0);
+        #endregion constructors
 
-        public bool Border
-        {
-            get => (Style & WS_BORDER) == WS_BORDER;
-            set => Style = value ? (Style | WS_BORDER) : (Style & ~WS_BORDER);
-        }
+        #region ## macros
 
-        public bool Caption
-        {
-            get => (Style & WS_CAPTION) == WS_CAPTION;
-            set => Style = value ? (Style | WS_CAPTION) : (Style & ~WS_DLGFRAME);
-        }
+        public bool Border 
+            => (Style & WS_BORDER) == WS_BORDER;
 
-        public bool MaximizeBox
-        {
-            get => (Style & WS_MAXIMIZEBOX) == WS_MAXIMIZEBOX;
-            set => Style = value ? (Style | WS_MAXIMIZEBOX) : (Style & ~WS_MAXIMIZEBOX);
-        }
+        public bool Caption 
+            => (Style & WS_CAPTION) == WS_CAPTION;
 
-        public bool MinimizeBox
-        {
-            get => (Style & WS_MINIMIZEBOX) == WS_MINIMIZEBOX;
-            set => Style = value ? (Style | WS_MINIMIZEBOX) : (Style & ~WS_MINIMIZEBOX);
-        }
+        public bool LayoutRtl
+            => (ExStyle & WS_EX_LAYOUTRTL) == WS_EX_LAYOUTRTL;
 
-        public bool SizeBox
-        {
-            get => (Style & WS_SIZEBOX) == WS_SIZEBOX;
-            set => Style = value ? (Style | WS_SIZEBOX) : (Style & ~WS_SIZEBOX);
-        }
+        public bool MaximizeBox 
+            => (Style & WS_MAXIMIZEBOX) == WS_MAXIMIZEBOX;
 
-        public bool SysMenu
-        {
-            get => (Style & WS_SYSMENU) == WS_SYSMENU;
-            set => Style = value ? (Style | WS_SYSMENU) : (Style & ~WS_SYSMENU);
-        }
+        public bool MinimizeBox 
+            => (Style & WS_MINIMIZEBOX) == WS_MINIMIZEBOX;
 
-        public bool ToolWindow
-        {
-            get => (ExStyle & WS_EX_TOOLWINDOW) == WS_EX_TOOLWINDOW;
-            set => ExStyle = value ? (ExStyle | WS_EX_TOOLWINDOW) : (ExStyle & ~WS_EX_TOOLWINDOW);
-        }
+        public bool SizeBox 
+            => (Style & WS_SIZEBOX) == WS_SIZEBOX;
+
+        public bool SysMenu 
+            => (Style & WS_SYSMENU) == WS_SYSMENU;
+
+        public bool ToolWindow 
+            => (ExStyle & WS_EX_TOOLWINDOW) == WS_EX_TOOLWINDOW;
+
+        #endregion macros
+
+        #region ## methods
 
         public override bool Equals(object obj)
         {
             return
                 obj != null &&
                 obj is WindowStyles other &&
-                this.Equals(other);
+                Equals(other);
         }
 
         public bool Equals(WindowStyles other)
         {
             return
-                Style   == other.Style  &&
+                Style == other.Style &&
                 ExStyle == other.ExStyle;
         }
 
@@ -89,6 +81,10 @@ namespace RemasterForms
         {
             return (Style, ExStyle).GetHashCode();
         }
+
+        #endregion methods
+
+        #region ## operators
 
         public static bool operator ==(WindowStyles left, WindowStyles right)
         {
@@ -99,5 +95,7 @@ namespace RemasterForms
         {
             return !(left == right);
         }
+
+        #endregion operators
     }
 }

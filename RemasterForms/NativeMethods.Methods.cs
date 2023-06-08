@@ -156,6 +156,11 @@ namespace RemasterForms
         [DllImport("user32", ExactSpelling = true, SetLastError = true)]
         public static extern int MapWindowPoints(IntPtr hWndFrom, IntPtr hWndTo, [In, Out] ref POINT pt, [MarshalAs(UnmanagedType.U4)] int cPoints);
 
+        // MoveWindow
+        [DllImport("user32", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool MoveWindow(IntPtr hWnd, int x, int y, int width, int height, bool repaint);
+
         // PostMessage
         [DllImport("user32", CharSet = CharSet.Auto)]
         [return: MarshalAs(UnmanagedType.Bool)]

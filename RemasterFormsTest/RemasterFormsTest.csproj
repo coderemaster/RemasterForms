@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2149372E-D431-470C-AABE-BBC9CD5F89C4}</ProjectGuid>
+    <ProjectGuid>{D9DD7129-6651-47AD-A985-9B86118466E1}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>TestForm</RootNamespace>
-    <AssemblyName>TestForm</AssemblyName>
+    <RootNamespace>RemasterFormsTest</RootNamespace>
+    <AssemblyName>RemasterFormsTest</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -22,6 +22,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -57,9 +59,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="TestForm.resx">
-      <DependentUpon>TestForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -70,6 +69,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TestForm.resx">
+      <DependentUpon>TestForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="App.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -86,7 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RemasterForms\RemasterForms.csproj">
-      <Project>{a3937f43-9398-4131-817e-9bdcd2722e5a}</Project>
+      <Project>{53F4821A-1A40-40E5-BCFC-DF62B2EC7983}</Project>
       <Name>RemasterForms</Name>
     </ProjectReference>
   </ItemGroup>

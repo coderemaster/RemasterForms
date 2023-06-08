@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -15,44 +14,98 @@ namespace RemasterForms
     {
         private void WmCreate(ref Message m)
         {
-            _WindowStyles       = new WindowStyles(m.HWnd);
-            _SystemFrameMetrics = new SystemFrameMetrics(WindowStyles);
+            _normalBounds = NormalBounds;
 
-            if (!Designtime)
+            _normalBorderMetrics = null;
+            _normalFrameMetrics  = null;
+
+            WindowStyles = new WindowStyles(m.HWnd);
+
+            if (!_designTime)
             {
-                if (!IsRestored)
-                    RestoreBounds = GetNormalBounds();
-
-                if (!IsMinimized)
-                    UpdateNonClientPadding();
-
-                int policy = (int)DWMNCRENDERINGPOLICY.DWMNCRP_ENABLED;
-
-                _ = DwmSetWindowAttribute(
-                    m.HWnd,
-                    (int)DWMWINDOWATTRIBUTE.DWMWA_NCRENDERING_POLICY,
-                    ref policy,
-                    sizeof(int));
-
-                DarkMode    = DarkMode;
-                CornerStyle = CornerStyle;
+                SystemFrameMetrics  = new FrameMetrics(WindowStyles);
+                DefaultFrameMetrics = FrameMetrics.Default(WindowStyles.ToolWindow);
+                HighContrastMode    = SystemInformation.HighContrast;
+                HighContrastLayout  = HighContrastMode;
             }
+
+            if (!Borderless && !IsMinimized)
+            {
+                // notify the window about the frame change
+
+                int flags =
+                SWP_NOZORDER |
+                SWP_NOACTIVATE |
+                SWP_NOOWNERZORDER |
+                SWP_FRAMECHANGED |
+                SWP_NOMOVE |
+                SWP_NOSIZE;
+
+                _ = SetWindowPos(Handle, IntPtr.Zero, 0, 0, 0, 0, flags);
+            }
+
+            DwmFrame?.Initialize();
 
             base.WndProc(ref m);
         }
 
         private void WmDestroy(ref Message m)
         {
-            if (IsMinimized)
-                RestoreBounds = GetNormalBounds();
+            _highContrastMode    = null;
+            _normalBorderMetrics = null;
+            _normalFrameMetrics  = null;
 
             base.WndProc(ref m);
         }
 
-        private void WmEraseBkgnd(ref Message m)
+        private void WmEnterSizeMove(ref Message m)
         {
-            UpdateWindowState();
-            UpdateBounds();
+            if (_activeMoving && SnapAvailable)
+            {
+                // BUGFIX_3
+                // - Wrong location by restoring from snap layout.
+
+                var normalBounds = NormalBounds;
+
+                if (Bounds != normalBounds)
+                    _normalLocation = normalBounds.Location;
+            }
+
+            base.WndProc(ref m);
+        }
+
+        private void WmExitSizeMove(ref Message m)
+        {
+            _activeMoving = false;
+            _activeSizing = false;
+
+            base.WndProc(ref m);
+        }
+
+        private void WmGetMinMaxInfo(ref Message m)
+        {
+            // BUGFIX
+            // - The caption buttons are drawn outside the caption area.
+
+            if (!IsMinimized)
+            {
+                int buttonHeight = ((Padding)DefaultFrameMetrics).Top;
+                int buttonWidth = buttonHeight * 3 / 2;
+
+                int minHeight = ((Padding)SystemFrameMetrics).Vertical;
+                int minWidth = 3 * buttonWidth + SystemFrameMetrics.BorderPadding.Horizontal;
+
+                var info = MINMAXINFO.FromLParam(m);
+
+                info.ptMinTrackSize = new POINT(
+                    Math.Max(minWidth, MinimumSize.Width),
+                    Math.Max(minHeight, MinimumSize.Height));
+
+                info.ToLParam(m);
+
+                DefWndProc(ref m);
+                return;
+            }
 
             base.WndProc(ref m);
         }
@@ -63,45 +116,30 @@ namespace RemasterForms
                 ? GetSystemMenu(m.HWnd, false)
                 : IntPtr.Zero;
 
-            if (hMenu != IntPtr.Zero && m.WParam == hMenu)
+            if (hMenu != IntPtr.Zero || m.WParam == hMenu)
             {
-                AdjustSystemMenu(hMenu, SC_DEFAULT);
-
-                scRestoreToNormal = 0;
-
-                if (IsMinimized && RestoreToMaximized)
-                {
-                    // get vacant id
-                    for (int id = 0x10; id < 0xF000; id += 0x10)
-                    {
-                        var mii = new MENUITEMINFO();
-
-                        if (!GetMenuItemInfo(hMenu, id, false, mii))
-                        {
-                            scRestoreToNormal = id;
-                            break;
-                        }
-                    }
-                }
-
-                if (scRestoreToNormal != 0)
-                    _ = SetMenuItemID(hMenu, SC_RESTORE, scRestoreToNormal);
+                InitSystemMenuPopup(hMenu);
 
                 m.Result = IntPtr.Zero;
                 return;
             }
+
+            base.WndProc(ref m);
         }
 
         private void WmNcActivate(ref Message m)
         {
+            bool oldActive = NonClientActive;
+
             NonClientActive = m.WParam != IntPtr.Zero;
 
-            if (Designtime)
-                m.Result = (IntPtr)1;
+            if (_designTime)
+                m.Result = IntPtr.Zero;
             else
-                DefWndProc(ref m);
+                base.WndProc(ref m);
 
-            OnNonClientActiveChanged(EventArgs.Empty);
+            if (oldActive != NonClientActive)
+                OnNonClientActiveChanged(EventArgs.Empty);
         }
 
         private void WmNcCalcSize(ref Message m)
@@ -112,25 +150,40 @@ namespace RemasterForms
                 return;
             }
 
-            UpdateWindowState();
+            if (!_designTime && !_activeSizing)
+                UpdateWindowState();
 
-            if (IsMinimized)
+            if (!ResizeRedraw)
+                InvalidateBorderRegion();
+
+            if (!_activeSizing && DwmFrame != null)
             {
-                _NonClientPadding = SystemFrameMetrics.DefaultWindow.FramePadding;
+                DwmFrame.GlassInsets = IsRestored
+                    ? AdjustGlassInsets()
+                    : Padding.Empty;
+            }
 
+            if (Borderless || IsMinimized)
+            {
                 base.WndProc(ref m);
                 return;
             }
 
-            SetNonClientPadding(IsRestored
-                ? DefaultNonClientPadding
-                : SystemFrameMetrics.BorderPadding);
+            var ncPadding = BorderMetrics.WindowEdges;
 
-            var nc = NCCALCSIZE_PARAMS.FromLParam(m);
+            if (!_designTime && ncPadding.IsEmpty() && WindowStyles.SizeBox)
+            {
+                // reduce resize flicker
+                ncPadding = new Padding(0, 0, 0, -1);
+            }
 
-            nc.rgrc[0] = Extensions.Grow(nc.rgrc[0], SystemFrameMetrics.FramePadding - NonClientPadding);
+            var ncParams = NCCALCSIZE_PARAMS.FromLParam(m);
 
-            nc.ToLParam(m);
+            ncParams.rgrc[0] = Extensions.Inflate(
+                ncParams.rgrc[0],
+                SystemFrameMetrics - ncPadding);
+
+            ncParams.ToLParam(m);
             m.Result = (IntPtr)WVR_VALIDRECTS;
 
             DefWndProc(ref m);
@@ -138,87 +191,150 @@ namespace RemasterForms
 
         private void WmNcHitTest(ref Message m)
         {
-            if (Designtime)
+            if (_designTime)
             {
                 base.WndProc(ref m);
                 return;
             }
 
+            if (_normalLocation != null && SnapAvailable && Bounds == NormalBounds)
+            {
+                // BUGFIX_3
+                // - Wrong location by restoring from snap layout.
+
+                _normalLocation = null;
+            }
+
             var pt = POINTS.FromLParam(m.LParam);
-            int ht = (int)NonClientHitTest(pt);
 
-            if (ht == HTNOWHERE && ClientRectangle.Contains(PointToClient(pt)))
-                ht = HTCLIENT;
+            if (!Bounds.Contains(pt))
+            {
+                m.Result = (IntPtr)HTNOWHERE;
+                return;
+            }
 
-            m.Result = (IntPtr)ht;
+            if (IsMinimized)
+            {
+                m.Result = (IntPtr)HTCAPTION;
+                return;
+            }
+
+            int htBorder  = BorderHitTest (pt);
+            int htCaption = CaptionHitTest(pt);
+
+            switch (htCaption)
+            {
+                case HTNOWHERE:
+                    m.Result = (IntPtr)htBorder;
+                    break;
+                case HTCAPTION:
+                    m.Result = (IntPtr)((htBorder != HTNOWHERE) ? htBorder : htCaption);
+                    break;
+                default:
+                    m.Result = (IntPtr)htCaption;
+                    break;
+            }
+
+            if (m.Result == (IntPtr)HTNOWHERE && ClientRectangle.Contains(PointToClient(pt)))
+            {
+                m.Result = (IntPtr)HTCLIENT;
+            }
         }
 
         private void WmNcPaint(ref Message m)
         {
-            if (Designtime)
+            if (_designTime)
             {
-                UpdateNonClient();
-                m.Result = (IntPtr)1;
+                DrawNonClient();
+
+                m.Result = IntPtr.Zero;
+                return;
             }
-            else
-                DefWndProc(ref m);
+
+            DefWndProc(ref m);
         }
 
         private void WmSettingChange(ref Message m)
         {
-            var oldMetrics = SystemFrameMetrics;
-
-            _SystemFrameMetrics = new SystemFrameMetrics(WindowStyles);
-
             base.WndProc(ref m);
 
-            if (SystemFrameMetrics != oldMetrics)
-                UpdateStyles();
+            bool highContrastModeChanged = false;
+            bool nonClientMetricsChanged = false;
 
             switch ((int)m.WParam)
             {
-                case SPI_SETNONCLIENTMETRICS:
-                    OnNonClientMetricsChanged(EventArgs.Empty);
-                    break;
                 case SPI_SETHIGHCONTRAST:
-                    OnHighContrastChanged(EventArgs.Empty);
+                    {
+                        if (HighContrastMode != SystemInformation.HighContrast)
+                        {
+                            highContrastModeChanged = true;
+
+                            HighContrastMode   = !HighContrastMode;
+                            HighContrastLayout = HighContrastMode;
+
+                            _normalBorderMetrics = null;
+                            _normalFrameMetrics  = null;
+                        }
+                    }
                     break;
+                case SPI_SETNONCLIENTMETRICS:
+                    {
+                        nonClientMetricsChanged = true;
+
+                        DefaultFrameMetrics = FrameMetrics.Default(WindowStyles.ToolWindow);
+                        SystemFrameMetrics  = new FrameMetrics(WindowStyles);
+
+                        if (_defaultFont == true)
+                            _defaultFont = null;
+
+                        _normalBorderMetrics = null;
+                        _normalFrameMetrics  = null;
+                    }
+                    break;
+            }
+
+            base.WndProc(ref m);
+
+            if (highContrastModeChanged)
+                OnColorModeChanged(EventArgs.Empty);
+
+            if (nonClientMetricsChanged)
+                OnNonClientMetricsChanged(EventArgs.Empty);
+
+            if (highContrastModeChanged || nonClientMetricsChanged)
+            {
+                UpdateStyles();
+                RestoreClientArea();
+                UpdateMaximizedBounds();
             }
         }
 
         private void WmStyleChanged(ref Message m)
         {
-            var ss = STYLESTRUCT.FromLParam(m);
+            bool oldBorderless = !WindowStyles.Border;
+            bool oldToolWindow = WindowStyles.ToolWindow;
+
+            var styles = STYLESTRUCT.FromLParam(m);
 
             switch ((int)m.WParam)
             {
                 case GWL_STYLE:
-                    {
-                        _WindowStyles = new WindowStyles(ss.styleNew, WindowStyles.ExStyle);
-                    }
+                    WindowStyles = new WindowStyles(styles.styleNew, WindowStyles.ExStyle);
                     break;
                 case GWL_EXSTYLE:
-                    {
-                        bool oldToolWindow = WindowStyles.ToolWindow;
-
-                        _WindowStyles = new WindowStyles(WindowStyles.Style, ss.styleNew);
-
-                        if (!Designtime && !Windows11 && WindowStyles.Border &&
-                            (oldToolWindow || WindowStyles.ToolWindow))
-                        {
-                            // update tool border
-                            _ = DefWndProc(WM_NCACTIVATE, (IntPtr)(NonClientActive ? 0 : 1), IntPtr.Zero);
-                            _ = DefWndProc(WM_NCACTIVATE, (IntPtr)(NonClientActive ? 1 : 0), IntPtr.Zero);
-                        }
-                    }
+                    WindowStyles = new WindowStyles(WindowStyles.Style, styles.styleNew);
                     break;
             }
 
-            _SystemFrameMetrics = new SystemFrameMetrics(WindowStyles);
+            DefaultFrameMetrics = FrameMetrics.Default(WindowStyles.ToolWindow);
+            SystemFrameMetrics  = new FrameMetrics(WindowStyles);
 
-            CornerStyle = CornerStyle;
+            _normalBorderMetrics = null;
+            _normalFrameMetrics  = null;
 
             base.WndProc(ref m);
+
+            UpdateMaximizedBounds();
         }
 
         private void WmSysCommand(ref Message m)
@@ -234,6 +350,27 @@ namespace RemasterForms
                             m.Result = IntPtr.Zero;
                             return;
                         }
+
+                        if (SnapLayout && _normalLocation != null)
+                        {
+                            // BUGFIX_3
+                            // - Wrong location by restoring from snap layout.
+
+                            DefWndProc(ref m);
+
+                            Location = (Point)_normalLocation;
+                            _normalLocation = null;
+
+                            return;
+                        }
+
+                        if (_restoreToNormal)
+                        {
+                            _ = ShowWindow(m.HWnd, SW_SHOWNORMAL);
+
+                            m.Result = IntPtr.Zero;
+                            return;
+                        }
                     }
                     break;
                 case SC_MOVE:
@@ -243,6 +380,8 @@ namespace RemasterForms
                             m.Result = IntPtr.Zero;
                             return;
                         }
+
+                        _activeMoving = true;
                     }
                     break;
                 case SC_SIZE:
@@ -252,11 +391,13 @@ namespace RemasterForms
                             m.Result = IntPtr.Zero;
                             return;
                         }
+
+                        _activeSizing = true;
                     }
                     break;
                 case SC_MINIMIZE:
                     {
-                        if (!MinimizeBox || !WindowStyles.Border)
+                        if (!MinimizeBox)
                         {
                             m.Result = IntPtr.Zero;
                             return;
@@ -269,7 +410,7 @@ namespace RemasterForms
                         {
                             case FormWindowState.Minimized:
                                 {
-                                    if (!MaximizeBox && !RestoreToMaximized)
+                                    if (!MaximizeBox && _prevWindowState != FormWindowState.Maximized)
                                     {
                                         m.Result = IntPtr.Zero;
                                         return;
@@ -288,20 +429,29 @@ namespace RemasterForms
                         }
                     }
                     break;
-                case SC_CLOSE:
+                case SC_KEYMENU:
                     {
-                        if (!CloseBox)
-                        {
-                            m.Result = IntPtr.Zero;
-                            return;
-                        }
+                        if ((int)m.LParam == (int)Keys.Space)
+                            goto case SC_MOUSEMENU;
                     }
                     break;
+                case SC_MOUSEMENU:
+                    {
+                        if (WindowStyles.SysMenu)
+                        {
+                            _scDefault = SC_CLOSE;
+                            _ = DefWndProc(m.Msg, m.WParam, m.LParam);
+                            _scDefault = 0;
+                        }
+
+                        m.Result = IntPtr.Zero;
+                        return;
+                    }
                 default:
                     {
-                        if (cmd == scRestoreToNormal)
+                        if (cmd == _scNormal)
                         {
-                            WindowState = FormWindowState.Normal;
+                            _ = ShowWindow(m.HWnd, SW_SHOWNORMAL);
 
                             m.Result = IntPtr.Zero;
                             return;
@@ -319,34 +469,32 @@ namespace RemasterForms
                 ? GetSystemMenu(m.HWnd, false)
                 : IntPtr.Zero;
 
-            if (hMenu != IntPtr.Zero && m.WParam == hMenu)
+            if (hMenu != IntPtr.Zero || m.WParam == hMenu)
             {
-                if (scRestoreToNormal != 0)
-                    SetMenuItemID(hMenu, scRestoreToNormal, SC_RESTORE);
+                UninitSystemMenuPopup(hMenu);
 
                 m.Result = IntPtr.Zero;
                 return;
             }
+
+            base.WndProc(ref m);
         }
 
         private void WmWindowPosChanged(ref Message m)
         {
-            UpdateWindowState();
-
             base.WndProc(ref m);
 
             if (IsRestored)
                 RestoreBounds = Bounds;
 
-            if (WindowState != cachedWindowState)
+            if (_oldWindowState != WindowState)
             {
-                if (IsMinimized)
-                    RestoreToMaximized = cachedWindowState == FormWindowState.Maximized;
-
-                cachedWindowState = WindowState;
+                _restoreToNormal = false;
+                _prevWindowState = _oldWindowState;
+                _oldWindowState  = WindowState;
 
                 if (IsMaximized)
-                    RestoreBounds = GetNormalBounds();
+                    RestoreBounds = NormalBounds;
 
                 OnWindowStateChanged(EventArgs.Empty);
             }
@@ -362,8 +510,14 @@ namespace RemasterForms
                 case WM_DESTROY:
                     WmDestroy(ref m);
                     break;
-                case WM_ERASEBKGND:
-                    WmEraseBkgnd(ref m);
+                case WM_ENTERSIZEMOVE:
+                    WmEnterSizeMove(ref m);
+                    break;
+                case WM_EXITSIZEMOVE:
+                    WmExitSizeMove(ref m);
+                    break;
+                case WM_GETMINMAXINFO:
+                    WmGetMinMaxInfo(ref m);
                     break;
                 case WM_INITMENUPOPUP:
                     WmInitMenuPopup(ref m);
@@ -380,16 +534,6 @@ namespace RemasterForms
                 case WM_NCPAINT:
                     WmNcPaint(ref m);
                     break;
-                case WM_SETICON:
-                case WM_SETTEXT:
-                    {
-                        int style = WindowStyles.Style;
-
-                        _ = SetWindowLong(m.HWnd, GWL_STYLE, (IntPtr)(style & ~WS_VISIBLE));
-                        DefWndProc(ref m);
-                        _ = SetWindowLong(m.HWnd, GWL_STYLE, (IntPtr)style);
-                    }
-                    break;
                 case WM_SETTINGCHANGE:
                     WmSettingChange(ref m);
                     break;
@@ -404,6 +548,40 @@ namespace RemasterForms
                     break;
                 case WM_WINDOWPOSCHANGED:
                     WmWindowPosChanged(ref m);
+                    break;
+                case WM_SETICON:
+                case WM_SETTEXT:
+                    {
+                        int style = WindowStyles.Style;
+
+                        _ = SetWindowLong(m.HWnd, GWL_STYLE, (IntPtr)(style & ~WS_VISIBLE));
+                        DefWndProc(ref m);
+                        _ = SetWindowLong(m.HWnd, GWL_STYLE, (IntPtr)style);
+                    }
+                    break;
+                case WM_NCLBUTTONDBLCLK:
+                case WM_NCLBUTTONDOWN:
+                case WM_NCLBUTTONUP:
+                case WM_NCMBUTTONDBLCLK:
+                case WM_NCMBUTTONDOWN:
+                case WM_NCMBUTTONUP:
+                case WM_NCMOUSELEAVE:
+                case WM_NCMOUSEMOVE:
+                case WM_NCRBUTTONDBLCLK:
+                case WM_NCRBUTTONDOWN:
+                case WM_NCRBUTTONUP:
+                case WM_NCXBUTTONDBLCLK:
+                case WM_NCXBUTTONDOWN:
+                case WM_NCXBUTTONUP:
+                    {
+                        if (!_designTime && ProcessNcMouse(ref m))
+                        {
+                            m.Result = IntPtr.Zero;
+                            return;
+                        }
+
+                        base.WndProc(ref m);
+                    }
                     break;
                 default:
                     base.WndProc(ref m);

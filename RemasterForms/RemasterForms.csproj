@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A3937F43-9398-4131-817E-9BDCD2722E5A}</ProjectGuid>
+    <ProjectGuid>{53F4821A-1A40-40E5-BCFC-DF62B2EC7983}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RemasterForms</RootNamespace>
@@ -34,8 +34,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -49,18 +49,20 @@
     <Compile Include="BaseForm.EventRaisers.cs" />
     <Compile Include="BaseForm.MsgHandlers.cs" />
     <Compile Include="BaseForm.NotSupported.cs" />
+    <Compile Include="BorderMetrics.cs" />
+    <Compile Include="ColorMode.cs" />
     <Compile Include="CornerStyle.cs" />
+    <Compile Include="DwmFrame.cs" />
     <Compile Include="Extensions.cs" />
-    <Compile Include="FormFrameStyle.cs" />
+    <Compile Include="FilterService.cs" />
+    <Compile Include="FrameMetrics.cs" />
     <Compile Include="NativeMethods.Constants.cs" />
     <Compile Include="NativeMethods.Helpers.cs" />
     <Compile Include="NativeMethods.Macros.cs" />
     <Compile Include="NativeMethods.Methods.cs" />
     <Compile Include="NativeMethods.Structures.cs" />
-    <Compile Include="SystemCommand.cs" />
-    <Compile Include="NonClientCode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemFrameMetrics.cs" />
+    <Compile Include="SystemCommandID.cs" />
     <Compile Include="WindowStyles.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
