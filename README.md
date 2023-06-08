@@ -4,7 +4,7 @@
 RemasterForms is a platform for creating customized windows.
 
 ### Content
-* [Custom Window Border](#features)
+* [Custom Window Border](#description)
 * [Custom Title Bar](#planned)
 * [Custom System Menu](#planned)
 * [Custom Color Themes](#planned)
