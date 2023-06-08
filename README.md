@@ -3,48 +3,48 @@
 
 RemasterForms is a platform for creating customized windows.
 
-### Features
-* Custom Window Border
+### Content
+* [Custom Window Border](#features)
 * [Custom Title Bar](#planned)
-* [Custom Window Menu](#planned)
+* [Custom System Menu](#planned)
 * [Custom Color Themes](#planned)
 
 #
-##### Windows 10
-![](Description/Windows10.gif)
-
 ##### Windows 11
-![](Description/Windows11.gif)
+![](GIFs/Windows11.gif)
+
+##### Windows 10
+![](GIFs/Windows10.gif)
 
 ##### High Contrast
-![](Description/HighContrast.gif)
+![](GIFs/HighContrast.gif)
 
 ##### Design Mode
-![](Description/DesignMode.gif)
+![](GIFs/DesignMode.gif)
 
 #
 ### Description
->### Coming soon...  
->>### ! Important
+>#### Features
+>> Native transition animations  
+>> Native DWM Border *  
+>> Improved system menu  
+>> Snap layouts are supported  
+>> Right-to-left mode is supported  
+>> No use of undocumented functions  
+>#### Full description coming soon...
+>>#### ! Important
 >> [High DPI support in Windows Forms](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/high-dpi-support-in-windows-forms?view=netframeworkdesktop-4.8)
 >>
->> To support high DPI, an application must be configured in the App.config and App.manifest files (see the included TestApp project).  
+>> To support high DPI, an application must be configured in the App.config and App.manifest files (see the included TestApp project).
 
 #
 ### Planned
+
 > To boost my work, please [support](#donation) this project with a [donation](#donation).
 
-#### Custom Title Bar
-* drawing buttons directly on the form
-* binding other components to the caption
+##### Titlebar Preview
+![](GIFs/TitlebarPreview.gif)
 
-#### Custom Window Menu
-* modifying system items and inserting new items
-
-#### Custom Color Themes
-* remastering of standard controls to support color themes
-
-#
 ### Donation  
   
 ###### BUSD (BEP-20)

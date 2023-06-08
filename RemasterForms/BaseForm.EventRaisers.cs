@@ -19,8 +19,16 @@ namespace RemasterForms
         // OnNonClientActiveChanged
         internal virtual void OnNonClientActiveChanged(EventArgs e)
         {
-            if (!ResizeRedraw)
-                InvalidateBorderRegion();
+            if (!BorderMetrics.ClientEdges.IsEmpty())
+            {
+                var rect = ClientRectangle.Translate(this);
+
+                using (var region = new Region(rect))
+                {
+                    region.Exclude(rect.Deflate(BorderMetrics.ClientEdges));
+                    Invalidate(region, true);
+                }
+            }
         }
 
         // OnNonClientMetricsChanged
@@ -100,15 +108,6 @@ namespace RemasterForms
         {
             new VisualStyleRenderer(VisualStyleElement.Window.Dialog.Normal)
                 .DrawParentBackground(e.Graphics, e.ClipRectangle, this);
-        }
-
-        // OnResize
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-
-            if (!ResizeRedraw)
-                InvalidateBorderRegion();
         }
 
         // OnRightToLeftChanged

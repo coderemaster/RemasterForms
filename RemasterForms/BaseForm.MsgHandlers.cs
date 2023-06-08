@@ -153,9 +153,6 @@ namespace RemasterForms
             if (!_designTime && !_activeSizing)
                 UpdateWindowState();
 
-            if (!ResizeRedraw)
-                InvalidateBorderRegion();
-
             if (!_activeSizing && DwmFrame != null)
             {
                 DwmFrame.GlassInsets = IsRestored
@@ -311,9 +308,6 @@ namespace RemasterForms
 
         private void WmStyleChanged(ref Message m)
         {
-            bool oldBorderless = !WindowStyles.Border;
-            bool oldToolWindow = WindowStyles.ToolWindow;
-
             var styles = STYLESTRUCT.FromLParam(m);
 
             switch ((int)m.WParam)

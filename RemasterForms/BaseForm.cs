@@ -44,6 +44,7 @@ namespace RemasterForms
             var styles =
                 ControlStyles.AllPaintingInWmPaint |
                 ControlStyles.OptimizedDoubleBuffer |
+                ControlStyles.ResizeRedraw |
                 ControlStyles.UserPaint;
 
             SetStyle(styles, true);
@@ -968,24 +969,6 @@ namespace RemasterForms
 
                 if (_scNormal != 0)
                     SetMenuItemID(hMenu, SC_RESTORE, _scNormal);
-            }
-        }
-
-        // InvalidateBorderRegion
-        internal virtual void InvalidateBorderRegion()
-        {
-            if (!IsHandleCreated || IsMinimized)
-                return;
-
-            if (!BorderMetrics.ClientEdges.IsEmpty())
-            {
-                var rect = ClientRectangle.Translate(this);
-
-                using (var region = new Region(rect))
-                {
-                    region.Exclude(rect.Deflate(BorderMetrics.ClientEdges));
-                    Invalidate(region, true);
-                }
             }
         }
 
