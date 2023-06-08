@@ -32,7 +32,7 @@ RemasterForms is a platform for creating custom forms.
 >> Right-to-left mode is supported  
 >> No use of undocumented functions  
 >#### Full description coming soon...
->>#### ! Important
+>>#### Important!
 >> [High DPI support in Windows Forms](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/high-dpi-support-in-windows-forms?view=netframeworkdesktop-4.8)
 >>
 >> To support high DPI, an application must be configured in the App.config and App.manifest files (see the included test project).
