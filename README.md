@@ -35,7 +35,7 @@ RemasterForms is a platform for creating customized windows.
 >>#### ! Important
 >> [High DPI support in Windows Forms](https://learn.microsoft.com/en-us/dotnet/desktop/winforms/high-dpi-support-in-windows-forms?view=netframeworkdesktop-4.8)
 >>
->> To support high DPI, an application must be configured in the App.config and App.manifest files (see the included TestApp project).
+>> To support high DPI, an application must be configured in the App.config and App.manifest files (see the included test project).
 
 #
 ### Planned
