@@ -253,8 +253,6 @@ namespace RemasterForms
 
         private void WmSettingChange(ref Message m)
         {
-            base.WndProc(ref m);
-
             bool highContrastModeChanged = false;
             bool nonClientMetricsChanged = false;
 
