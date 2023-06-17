@@ -318,8 +318,11 @@ namespace RemasterForms
                     break;
             }
 
-            DefaultFrameMetrics = FrameMetrics.Default(WindowStyles.ToolWindow);
-            SystemFrameMetrics  = new FrameMetrics(WindowStyles);
+			if (!_designTime)
+            {
+				DefaultFrameMetrics = FrameMetrics.Default(WindowStyles.ToolWindow);
+				SystemFrameMetrics  = new FrameMetrics(WindowStyles);
+			}
 
             _normalBorderMetrics = null;
             _normalFrameMetrics  = null;
